@@ -41,6 +41,76 @@ import MainMenu from './start/MainMenu';
 import KwaunodaLogin from './KwaunodaLogin';
 import Views from './PosGas/Views';
 import MyProducts from './PosGas/MyProducts';
+import SalesSettings from './Pos/SalesSettings';
+import Invoice from './Pos/Invoice';
+import InvoiceReview from './Pos/InvoiceReview';
+import CreateSourceDocument from './Pos/CreateSourceDocument';
+import PensionHome from './Pension/PensionHome';
+import PensionBlank from './Pension/PensionBlank';
+import InvestmentRevenue from './Pension/InvestmentRevenue';
+import InvestmentPortifolios from './Pension/InvestmentPortifolios';
+import NewMembers from './Pension/NewMembers';
+import Products from './Pension/Products';
+import ContributionsPayments from './Pension/ContributionsPayments';
+import NewPensionProduct from './Pension/NewPensionProduct';
+import Memberships from './Pension/Memberships';
+import Dashboard from './Pension/Dashboard';
+import CustomerProfile from './Pension/CustomerProfile';
+import ApproveMembers from './Pension/ApproveMembers';
+
+
+import InvestmentFunds from "./Pension/InvestimentFund";
+import PlanContributions from "./Pension/PlanContributions";
+import InvestmentAssets from "./Pension/InvestmentAsset";
+import ContributionsRecievedAccounts from "./Pension/ContributionRecievedAccounts";
+import PurchaseInvestmentAssets from "./Pension/PurchaseInvestmentAssets";
+import ApproveAsset from "./Pension/ApproveAsset";
+import AddInvestmentFund from "./Pension/AddInvestmentFund";
+
+
+import FinStatementsMenu from "./Pension/FinStatementsMenu";
+import FinDebtorsAgeAnalysis from "./Pension/FinDebtorsAgeAnalysis";
+import FinStatementsPrescribedAssetInvestmentReport from "./Pension/FinStatementPrescribedAssetsInvestmentReport";
+import FinUnclaimedBenefitsAgeAnalysis from "./Pension/FinUnclaimedBenefitsAgeAnalysis";
+import FinMembershipStatistics from "./Pension/FinMembershipStatistics";
+import FinAssetsOutsideZim from "./Pension/FinAssetsOutsideZim";
+import FinSponsoringEmployerContributionArrears from "./Pension/FinSponsoringEmployerContributionArrears";
+import FinTrialBalance from "./Pension/FinTrialBalance";
+
+
+
+import Communications from './Pension/communications';
+import Programmes from './Pension/Programmes';
+
+
+import InvestmentFundsOverwiew from './Pension/InvestmentFundsOverwiew';
+
+
+import About from './PensionClientSelfService/ClientAbout';
+import ClientDashboard from './PensionClientSelfService/ClientDashboard';
+import ClientLogin from './PensionClientSelfService/ClientLogin';
+import ClientHome from './PensionClientSelfService/ClientHome';
+import ClientProfile from './PensionClientSelfService/ClientProfile';
+import ClientContribution from './PensionClientSelfService/ClientContribution';
+import ClientPayouts from './PensionClientSelfService/ClientPayouts';
+import ClientScenerio from './PensionClientSelfService/ClientScenario';
+import ClientFeedback from './PensionClientSelfService/ClientFeedBack';
+import ClientFAQ from './PensionClientSelfService/ClientFAQ';
+import ClientAbout from './PensionClientSelfService/ClientAbout';
+
+
+import PayrollEmployeeDetails from './Payroll/PayrollEmployeeDetails';
+import PayrollAddAttendanceRecord from './Payroll/PayrollAddAttendance';
+import PayrollEmployeeRoles from './Payroll/PayrollEmployeeRoles';
+import PayrollAllowances from './Payroll/PayrollAllowances';
+import PayrollAddBankDetail from './Payroll/PayrollAddBankDetail';
+import PayrollEmployeeRecords from './Payroll/PayrollEmployeeRecords';
+import PayrollIncome from './Payroll/Payrollncome';
+import PayrollRecords from './Payroll/PayrollPayRuns';
+import PayrollPaySlips from './Payroll/PayrollPaySlips';
+import PayrollPayScales from './Payroll/PayrollPayScales';
+import PayrollControlAccount from './Payroll/PayrollControlAccounts';
+import PayrollBankFilePreView from './Payroll/PayrollBankFilePreView';
 
 function App() {
 
@@ -57,15 +127,48 @@ function App() {
         {/* <Home></Home> */}
         <Routes>
           <Route path='/' element={<MainMenu />}></Route>
+
+
+          <Route path='/PayrollEmployeeDetails' element={<PayrollEmployeeDetails />}></Route>
+          <Route path='/PayrollAddAttendanceRecord' element={<PayrollAddAttendanceRecord />}></Route>
+          <Route path='/PayrollEmployeeRoles' element={<PayrollEmployeeRoles />}></Route>
+          <Route path='/PayrollAllowances' element={<PayrollAllowances />}></Route>
+          <Route path='/PayrollAddBankDetail' element={<PayrollAddBankDetail />}></Route>
+          <Route path='/PayrollEmployeeRecords' element={<PayrollEmployeeRecords />}></Route>
+          <Route path='/PayrollIncome' element={<PayrollIncome />}></Route>
+          <Route path='/PayrollRecords' element={<PayrollRecords />}></Route>
+          <Route path='/PayrollPaySlips' element={<PayrollPaySlips />}></Route>
+          <Route path='/PayrollPayScales' element={<PayrollPayScales />}></Route>
+          <Route path='/PayrollControlAccount' element={<PayrollControlAccount />}></Route>
+          <Route path='/PayrollBankFilePreView' element={<PayrollBankFilePreView />}></Route>
+
+
+          <Route path='/InvoiceReview' element={<InvoiceReview />}></Route>
           <Route path='/Login' element={<Login />}></Route>
+          <Route path='/Memberships' element={<Memberships />}></Route>
+          <Route path='/CustomerProfile' element={<CustomerProfile />}></Route>
+          <Route path='/ApproveMembers' element={<ApproveMembers />}></Route>
+          <Route path='/Dashboard' element={<Dashboard />}></Route>
+          <Route path='/NewMembers' element={<NewMembers />}></Route>
+          <Route path='/NewPensionProduct' element={<NewPensionProduct />}></Route>
+          <Route path='/ContributionsPayments' element={<ContributionsPayments />}></Route>
+          <Route path='/Products' element={<Products />}></Route>
+          <Route path='/PensionHome' element={<PensionHome />}></Route>
+          <Route path='/InvestmentRevenue' element={<InvestmentRevenue />}></Route>
+          <Route path='/PensionBlank' element={<PensionBlank />}></Route>
+          <Route path='/InvestmentPortifolios' element={<InvestmentPortifolios />}></Route>
           <Route path='/KwaunodaLogin' element={<KwaunodaLogin />}></Route>
+          <Route path='/SalesSettings' element={<SalesSettings />}></Route>
+          <Route path='/Invoice' element={<Invoice />}></Route>
           <Route path='/home' element={<Home />}></Route>
+          <Route path='/Invoice' element={<Invoice />}></Route>
+          <Route path='/CreateSourceDocument' element={<CreateSourceDocument />}></Route>
           <Route path='/menu' element={<Menu />}></Route>
           <Route path='/funnel' element={<MarketingFunnel />}></Route>
           <Route path='/followup' element={<FollowUp />}></Route>
           <Route path='/prospect' element={<NewProspect />}></Route>
           <Route path='/newuser' element={<AddUser />}></Route>
-          <Route path='/findashboard' element={<FinDashboard />}></Route>
+          <Route path='findashboard' element={<FinDashboard />}></Route>
           <Route path='/income' element={<Income />}></Route>
           <Route path='/expenses' element={<Expenses />}></Route>
           <Route path='/directexpenses' element={<DirectExpenses />}></Route>
@@ -95,6 +198,47 @@ function App() {
           <Route path='ProcessingOrder' element={<ProcessingOrder/>}></Route>
           <Route path='Views' element={<Views/>}></Route>
           <Route path='MyProducts' element={<MyProducts/>}></Route>
+
+
+
+          <Route path="/investimentFund" element={<InvestmentFunds />}></Route>
+          <Route path="/PlanContribution" element={<PlanContributions />}></Route>
+          <Route path="/investmentAssets" element={<InvestmentAssets />}></Route>
+          <Route path="/ContributionsRecievedAccounts" element={<ContributionsRecievedAccounts />}></Route>
+          <Route path="/PurchaseInvestment" element={<PurchaseInvestmentAssets />}></Route>
+          <Route path="/ApproveAsset" element={<ApproveAsset/>}></Route>
+          <Route path="/AddInvesmentFund" element={<AddInvestmentFund/>}></Route>
+
+
+
+          <Route path="/FinStatementsMenu" element={<FinStatementsMenu/>}></Route>
+          <Route path="/FinDebtorsAgeAnalysis" element={<FinDebtorsAgeAnalysis/>}></Route>
+          <Route path="/FinStatementsPrescribedAssetInvestmentReport" element={<FinStatementsPrescribedAssetInvestmentReport/>}></Route>
+          <Route path="/FinUnclaimedBenefitsAgeAnalysis" element={<FinUnclaimedBenefitsAgeAnalysis/>}></Route>
+          <Route path="/FinMembershipStatistics" element={<FinMembershipStatistics/>}></Route>
+          <Route path="/FinAssetsOutsideZim" element={<FinAssetsOutsideZim/>}></Route>
+          <Route path="/FinSponsoringEmployerContributionArrears" element={<FinSponsoringEmployerContributionArrears/>}></Route>
+          <Route path="/FinTrialBalance" element={<FinTrialBalance/>}></Route>
+
+
+          <Route path="/TimeKeepings" element={<Communications/>}></Route>
+          <Route path="/Programmes" element={<Programmes/>}></Route>
+          <Route path="/InvestmentFundsOverwiew" element={<InvestmentFundsOverwiew/>}></Route>
+
+
+
+          <Route path='/ClientAbout' element={<About/>}></Route>
+          <Route path='/ClientDashboard' element={<ClientDashboard/>}></Route>
+          <Route path='/ClientLogin' element={<ClientLogin/>}></Route>
+          <Route path='/ClientHome' element={<ClientHome/>}></Route>
+          <Route path='/ClientProfile' element={<ClientProfile/>}></Route>
+          <Route path='/ClientContribution' element={<ClientContribution/>}></Route>
+          <Route path='/ClientPayouts' element={<ClientPayouts/>}></Route>
+          <Route path='/ClientScenerio' element={<ClientScenerio/>}></Route>
+          <Route path='/ClientFeedback' element={<ClientFeedback/>}></Route>
+          <Route path='/ClientFAQ' element={<ClientFAQ/>}></Route>
+          <Route path='/ClientAbout' element={<ClientAbout/>}></Route>
+ 
  
         </Routes>
       </div>

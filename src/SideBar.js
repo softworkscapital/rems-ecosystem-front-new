@@ -79,7 +79,10 @@ const SideBar = () => {
                                         Menu
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link active" style={{fontSize: '12px', color:'#fff'}} href="funnel">Dashboard</a>
+                                        <a className="nav-link" style={{fontSize: '12px', color:'#fff'}} href="funnel">Dashboard</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" style={{fontSize: '12px', color:'#fff'}} href="funnel">Funnel</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" style={{fontSize: '12px', color:'#fff'}} href="/prospect">Add Prospect</a>

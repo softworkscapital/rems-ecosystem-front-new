@@ -98,6 +98,20 @@ const Menu = () => {
                                                     </div>
                                                 </a>
                                             </div>
+
+
+                                            <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12" style={{ pointerEvents: 'none' }}>
+                                                <a href="/login">
+                                                    <div className="card">
+                                                        <div className="card-body" style={{ backgroundColor: 'lightgray' }}>
+                                                            <h5 className="text-muted">REMS</h5>
+                                                            <div className="metric-value d-inline-block">
+                                                                <h2 className="mb-1">Pension</h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

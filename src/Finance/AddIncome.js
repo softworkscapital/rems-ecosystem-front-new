@@ -330,38 +330,7 @@ const AddIncome = () => {
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    {/* 
-                                                <div class="form-group row">
-                                                    <label for="fin_acc_account_map_id" class="col-3 col-lg-2 col-form-label text-right">Dual T Acc</label>
-                                                    <div class="col-9 col-lg-10">
-                                                        <select
-                                                            id="stage"
-                                                            value={dual_trans_acc_name}
-                                                            // onChange={e => setMap(e.target.value)}
-                                                            //onChange={e => handleDualIndexAcc(cashbank.find(option => option.dual_trans_acc_name === e.target.value).dual_trans_acc_name_id)}
-                                                            onChange={e => {
-                                                                const selectedOption = cashbank.find(option => option.acc_account_name === e.target.value);
-                                                                handleDualIndexAcc(selectedOption.fin_acc_account_map_id, selectedOption.acc_account_name);
-                                                            }}
-                                                            required
-                                                            className="form-control"
-                                                        >
-                                                            <option value="">Dual Trans Acc Name</option>
-                                                            {cashbank.map(option => (
-                                                                <option key={option.fin_acc_account_map_id} value={`${option.acc_account_name}`}>
-                                                                    {`${option.acc_account_name}`}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                </div> */}
-
-                                                    {/* <div class="form-group row">
-                                                    <label for="description" class="col-3 col-lg-2 col-form-label text-right">Payment Mode</label>
-                                                    <div class="col-9 col-lg-10">
-                                                        <input id="description" type="text" value={pmode} onChange={e => setPmode(e.target.value)} required="" placeholder="payment mode" class="form-control" />
-                                                    </div>
-                                                </div> */}
+                                                    
 
                                                     <div class="form-group row">
                                                         <label for="fin_acc_account_map_id" class="col-3 col-lg-2 col-form-label text-right">Cost Center</label>
@@ -432,6 +401,8 @@ const AddIncome = () => {
                                                                 {/* <input type="checkbox" class="custom-control-input" /><span class="custom-control-label">Remember me</span> */}
                                                             </label>
                                                         </div>
+
+                                                        
                                                         <div class="col-sm-6 pl-0">
                                                             <p class="text-right">
                                                                 <button type="submit" class="btn btn-space btn-primary">Submit</button>

@@ -6,31 +6,26 @@ const Menu = () => {
     const [accessLevel, setAccessLevel] = useState('');
 
     useEffect(() => {
-        // Retrieve category and role from localStorage
         const category = localStorage.getItem("async_category");
         const role = localStorage.getItem("async_role");
 
-        // Log the values
         console.log("Category:", category);
         console.log("Role:", role);
 
-        // Set access level based on the retrieved role
         if (role === "Admin") {
-            setAccessLevel(category); // Set access level based on category
+            setAccessLevel(category); 
         }
-    }, []); // Empty dependency array to run only once on mount
+    }, []);
 
-    // Function to determine if a card should be enabled
     const isCardEnabled = (cardId) => {
-        if (accessLevel === "ecosystem_admin") return true; // Full access
-        if (accessLevel === "ecosystem_guest" && cardId === 'posGas') return true; // Guest can access only POS Gas
-        if (accessLevel === "company_admin" && (cardId === 'posGas')) return true; // Limited access for Company Admin
-        return false; // All other cards are disabled
+        if (accessLevel === "ecosystem_admin") return true; 
+        if (accessLevel === "ecosystem_guest" && cardId === 'posGas') return true; 
+        if (accessLevel === "company_admin" && (cardId === 'posGas')) return true; 
+        return false; 
     };
 
-    // Handle card click
     const handleCardClick = (cardId, event) => {
-        event.preventDefault(); // Prevent default anchor behavior
+        event.preventDefault(); 
         if (!isCardEnabled(cardId)) {
             toast.error(`Access to ${cardId.replace(/([A-Z])/g, ' $1')} is disabled.`, {
                 position: "top-center", 
@@ -41,8 +36,7 @@ const Menu = () => {
                 progress: undefined,
             });
         } else {
-            // Navigate to the link if allowed (you may need to use a router)
-            window.location.href = `/${cardId}`; // Adjust according to your routing
+            window.location.href = `/${cardId}`; 
         }
     };
 
@@ -54,12 +48,13 @@ const Menu = () => {
                     <div className="container-fluid dashboard-content">
                         <div className="row">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <h2 className="text-center">REMS Business Suite</h2><br />
-                            <h3 className="text-center">Main Menu</h3><br />
+                                <h2 className="text-center">REMS Business Suite</h2><br />
+                                <h3 className="text-center">Main Menu</h3><br />
 
-                                <div className='row' style={{ marginLeft: '1%', textAlign: 'center' }}>
-                                    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                        <a href="/funnel" onClick={(e) => handleCardClick('ticketing', e)}>
+                                <div className='row' style={{ marginLeft: '1%', textAlign: 'center', marginTop: '20px' }}>
+                                    {/* First row with 4 cards */}
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/funnel" onClick={(e) => handleCardClick('funnel', e)}>
                                             <div className="card">
                                                 <div className="card-body" style={{ backgroundColor: isCardEnabled('ticketing') ? 'white' : 'lightgray' }}>
                                                     <h5 className="text-muted">REMS</h5>
@@ -71,7 +66,7 @@ const Menu = () => {
                                         </a>
                                     </div>
 
-                                    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                                         <a href="/pos" onClick={(e) => handleCardClick('pos', e)}>
                                             <div className="card">
                                                 <div className="card-body" style={{ backgroundColor: isCardEnabled('pos') ? 'white' : 'lightgray' }}>
@@ -84,7 +79,7 @@ const Menu = () => {
                                         </a>
                                     </div>
 
-                                    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                                         <a href="/posgas" onClick={(e) => handleCardClick('posGas', e)}>
                                             <div className="card">
                                                 <div className="card-body" style={{ backgroundColor: isCardEnabled('posGas') ? 'white' : 'lightgray' }}>
@@ -97,8 +92,8 @@ const Menu = () => {
                                         </a>
                                     </div>
 
-                                    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                        <a href="/findashboard" onClick={(e) => handleCardClick('finance', e)}>
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/accountmap" onClick={(e) => handleCardClick('accountmap', e)}>
                                             <div className="card">
                                                 <div className="card-body" style={{ backgroundColor: isCardEnabled('finance') ? 'white' : 'lightgray' }}>
                                                     <h5 className="text-muted">REMS</h5>
@@ -109,9 +104,12 @@ const Menu = () => {
                                             </div>
                                         </a>
                                     </div>
+                                </div>
 
-                                    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                        <a href="/login" onClick={(e) => handleCardClick('payroll', e)}>
+                                {/* Second row for the last 3 cards */}
+                                <div className='row' style={{ marginTop: '20px', textAlign: 'center', marginLeft: 10 }}>
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/PayrollEmployeeDetails" onClick={(e) => handleCardClick('PayrollEmployeeDetails', e)}>
                                             <div className="card">
                                                 <div className="card-body" style={{ backgroundColor: isCardEnabled('payroll') ? 'white' : 'lightgray' }}>
                                                     <h5 className="text-muted">REMS</h5>
@@ -122,7 +120,39 @@ const Menu = () => {
                                             </div>
                                         </a>
                                     </div>
+
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/Dashboard" onClick={(e) => handleCardClick('Dashboard', e)}>
+                                            <div className="card">
+                                                <div className="card-body" style={{ backgroundColor: isCardEnabled('Dashboard') ? 'white' : 'lightgray' }}>
+                                                    <h5 className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-1">Pension</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/ClientLogin" onClick={(e) => handleCardClick('ClientLogin', e)}>
+                                            <div className="card">
+                                                <div className="card-body" style={{ backgroundColor: isCardEnabled('PensionClientSelfService') ? 'white' : 'lightgray' }}>
+                                                    <h5 className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-3" style={{fontSize: 22}}>Pension Client Self Service</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    {/* Empty column for spacing in the second row */}
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        {/* This column is left empty for spacing */}
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

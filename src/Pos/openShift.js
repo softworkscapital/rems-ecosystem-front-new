@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Table, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../config';
+import TopNav from './TopNav';
+import SideBar from './SideBar';
 
 function OpenShift() {
 

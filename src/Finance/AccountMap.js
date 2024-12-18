@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "./SideBar";
-import TopNav from "../TopNav";
+import TopNav from "./TopNav";
 import Footer from "../Footer";
 import { API_URL } from "../config";
 import { Link } from "react-router-dom";
@@ -35,14 +35,14 @@ const AccountMap = () => {
 
                 <body>
 
-                    <div class="dashboard-main-wrapper">
+                    <div class="dashboard-main-wrapper" align="left">
                         <TopNav></TopNav>
                         <SideBar></SideBar>
 
                         <div class="dashboard-wrapper">
                             <div class="container-fluid  dashboard-content">
                                 <div class="row">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 " >
                                         <div class="page-header">
                                             <h2 class="pageheader-title">Account Map</h2>
                                         

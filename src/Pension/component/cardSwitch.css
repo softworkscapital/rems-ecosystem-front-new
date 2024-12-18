@@ -1,0 +1,35 @@
+/* Custom CSS for blue switch */
+.custom-control-input {
+    background-color: blue; /* Default background color */
+    border-color: blue; /* Default border color */
+}
+
+.custom-control-input:checked {
+    background-color: blue; /* Background color when checked */
+    border-color: blue; /* Border color when checked */
+}
+
+.custom-control-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Optional: Add a focus effect */
+}
+
+/* Optional: Change the slider color */
+.custom-control-input:before {
+    background-color: blue; /* Color of the slider */
+    border-color: blue; 
+}
+
+.custom-control-input:checked:before {
+    background-color: blue; /* Color of the slider when checked */
+    border-color: blue; 
+}
+
+/* Additional styling for better visibility */
+.custom-control-input:before {
+    box-shadow: none; /* Remove shadow for a flat design */
+    border-radius: 2px; /* Rounded corners for the slider */
+}
+
+.custom-control-input:checked:before {
+    border-radius: 2px; /* Keep rounded corners when checked */
+}

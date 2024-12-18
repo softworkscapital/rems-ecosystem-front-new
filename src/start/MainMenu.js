@@ -1,74 +1,165 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const MainMenu = () => {
+const Menu = () => {
+    const [accessLevel, setAccessLevel] = useState('');
+
+    useEffect(() => {
+        const category = localStorage.getItem("async_category");
+        const role = localStorage.getItem("async_role");
+
+        console.log("Category:", category);
+        console.log("Role:", role);
+
+        if (role === "Admin") {
+            setAccessLevel(category); 
+        }
+    }, []);
+
+    const isCardEnabled = (cardId) => {
+        if (accessLevel === "ecosystem_admin") return true; 
+        if (accessLevel === "ecosystem_guest" && cardId === 'posGas') return true; 
+        if (accessLevel === "company_admin" && (cardId === 'posGas')) return true; 
+        return false; 
+    };
+
+    const handleCardClick = (cardId, event) => {
+        event.preventDefault(); 
+        if (!isCardEnabled(cardId)) {
+            toast.error(`Access to ${cardId.replace(/([A-Z])/g, ' $1')} is disabled.`, {
+                position: "top-center", 
+                hideProgressBar: true, 
+                closeOnClick: true, 
+                pauseOnHover: true,
+                draggable: true, 
+                progress: undefined,
+            });
+        } else {
+            window.location.href = `/${cardId}`; 
+        }
+    };
+
     return (
-        <div>
-            <html>
-                <head>
-                    <meta charset="utf-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
-                    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css" />
-                    <link href="../assets/vendor/fonts/circular-std/style.css" rel="stylesheet" />
-                    <link rel="stylesheet" href="../assets/libs/css/style.css" />
-                    <link rel="stylesheet" href="../assets/vendor/fonts/fontawesome/css/fontawesome-all.css" />
-                </head>
+        <div style={{ backgroundColor: 'rgba(113, 116, 141, 0.1)', height: "100vh" }}>
+            <ToastContainer />
+            <div>
+                <div style={{ width: '100%' }}>
+                    <div className="container-fluid dashboard-content">
+                        <div className="row">
+                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h2 className="text-center">REMS Business Suite</h2><br />
+                                <h3 className="text-center">Main Menu</h3><br />
 
-                <body>
-                    <div style={{ width: '100%' }}>
-                        <div className="container-fluid dashboard-content">
-                            <div className="row">
-                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
-                                    <h2 className="my-4">Softworks Products</h2>
-                                    <h3 className="my-4">Affiliates Only</h3>
-
-                                    <div className='row justify-content-center'>
-                                        <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
-                                            <a href="/login" style={{ textDecoration: 'none' }}>
-                                                <div className="card" style={{ backgroundColor: '#ADD8E6', color: 'white', height: '200px' }}>
-                                                    <div className="card-body d-flex align-items-center justify-content-center" style={{ height: '100%' }}>
-                                                        <h2 className="mb-1">Business Suite</h2>
+                                <div className='row' style={{ marginLeft: '1%', textAlign: 'center', marginTop: '20px' }}>
+                                    {/* First row with 4 cards */}
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/funnel" onClick={(e) => handleCardClick('funnel', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-1">Ticketing</h2>
                                                     </div>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            </div>
+                                        </a>
+                                    </div>
 
-                                        <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
-                                            <a href="https://tellthem.softworkscapital.com/" style={{ textDecoration: 'none' }}>
-                                                <div className="card" style={{ backgroundColor: '#ADD8E6', color: 'white', height: '200px' }}>
-                                                    <div className="card-body d-flex align-items-center justify-content-center" style={{ height: '100%' }}>
-                                                        <h2 className="mb-1">Tell Them</h2>
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/pos" onClick={(e) => handleCardClick('pos', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-1">POS</h2>
                                                     </div>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            </div>
+                                        </a>
+                                    </div>
 
-                                        <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
-                                            <a href="/KwaunodaLogin" style={{ textDecoration: 'none' }}>
-                                                <div className="card" style={{ backgroundColor: '#ADD8E6', color: 'white', height: '200px' }}>
-                                                    <div className="card-body d-flex align-items-center justify-content-center" style={{ height: '100%' }}>
-                                                        <h2 className="mb-1">Kwaunoda</h2>
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/posgas" onClick={(e) => handleCardClick('posGas', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-1">POS Gas</h2>
                                                     </div>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/accountmap" onClick={(e) => handleCardClick('accountmap', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-1">Finance</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
+
+                                {/* Second row for the last 3 cards */}
+                                <div className='row' style={{ marginTop: '20px', textAlign: 'center', marginLeft: 10 }}>
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/PayrollEmployeeDetails" onClick={(e) => handleCardClick('PayrollEmployeeDetails', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6', marginLeft: '12px' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-1">Payroll</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/Dashboard" onClick={(e) => handleCardClick('Dashboard', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-1">Pension</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/ClientLogin" onClick={(e) => handleCardClick('ClientLogin', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-3" style={{fontSize: 22}}>Pension Client Self Service</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    {/* Empty column for spacing in the second row */}
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        {/* This column is left empty for spacing */}
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
-                        <div>
-                            {/* <Footer></Footer> */}
-                        </div>
                     </div>
-                    <script src="../assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-                    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-                    <script src="../assets/vendor/slimscroll/jquery.slimscroll.js"></script>
-                    <script src="../assets/libs/js/main-js.js"></script>
-                </body>
-            </html>
+                </div>
+            </div>
         </div>
     );
 }
 
-export default MainMenu;
+export default Menu;

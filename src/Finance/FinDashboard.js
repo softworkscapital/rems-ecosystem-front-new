@@ -5,7 +5,6 @@ import Footer from "../Footer";
 import { API_URL } from "../config";
 
 const FinDashboard = () => {
-
     const [awareness, setAwareness] = useState(0);
     const [interest, setInterest] = useState(0);
     const [decision, setDecision] = useState(0);
@@ -17,65 +16,61 @@ const FinDashboard = () => {
 
     useEffect(() => {
         const accounts = () => {
-            fetch(`${API_URL}/accountmap/acc/maps`).then(res => {
-                return res.json()
-            }).then(resp => {
-                setStaticAcc(resp);
-                console.log(resp);
-            }).catch((err) => {
-                console.log(err.message);
-            })
-        }
+            fetch(`${API_URL}/accountmap/acc/maps`)
+                .then(res => res.json())
+                .then(resp => {
+                    setStaticAcc(resp);
+                    console.log(resp);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                });
+        };
 
         accounts();
-    }, [])
+    }, []);
 
     useEffect(() => {
         const getAdminExpBal = () => {
-            fetch(`${API_URL}/expensesacc/aaccBal/name`).then(res => {
-                return res.json()
-            }).then(resp => {
-                setAdminExpBal(resp[0].total_debit);
-                console.log(resp);
-            }).catch((err) => {
-                console.log(err.message);
-            })
-        }
+            fetch(`${API_URL}/expensesacc/aaccBal/name`)
+                .then(res => res.json())
+                .then(resp => {
+                    setAdminExpBal(resp[0]?.total_debit || 0);
+                    console.log(resp);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                });
+        };
 
         const getDirectExpBal = () => {
-            fetch(`${API_URL}/directexpenses/aaccBal/name`).then(res => {
-                return res.json()
-            }).then(resp => {
-                if (resp[0].total_debit) {
-                    setDirectExpBal(resp[0].total_debit);
-                } else {
-                    setDirectExpBal(0);
-                }
-                console.log(resp);
-            }).catch((err) => {
-                console.log(err.message);
-            })
-        }
+            fetch(`${API_URL}/directexpenses/aaccBal/name`)
+                .then(res => res.json())
+                .then(resp => {
+                    setDirectExpBal(resp[0]?.total_debit || 0);
+                    console.log(resp);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                });
+        };
 
         const getIncomeExpBal = () => {
-            fetch(`${API_URL}/income/aaccBal/name`).then(res => {
-                return res.json()
-            }).then(resp => {
-                if (resp[0].total_debit) {
-                    setIncomeBal(resp[0].total_debit);
-                } else {
-                    setDirectExpBal(0);
-                }
-                console.log(resp);
-            }).catch((err) => {
-                console.log(err.message);
-            })
-        }
+            fetch(`${API_URL}/income/aaccBal/name`)
+                .then(res => res.json())
+                .then(resp => {
+                    setIncomeBal(resp[0]?.total_debit || 0);
+                    console.log(resp);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                });
+        };
 
         getIncomeExpBal();
         getAdminExpBal();
         getDirectExpBal();
-    },)
+    }, []); // Added an empty dependency array
 
     return (
         <div>
@@ -91,21 +86,21 @@ const FinDashboard = () => {
                 </head>
 
                 <body>
-                    <div class="dashboard-main-wrapper">
-                        <TopNav></TopNav>
-                        <SideBar></SideBar>
+                    <div className="dashboard-main-wrapper">
+                        <TopNav />
+                        <SideBar />
 
-                        <div class="dashboard-wrapper">
-                            <div class="container-fluid dashboard-content" style={{ backgroundColor: '#fff' }}>
-                                <div class="row">
-                                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12" style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                        <div class="card" style={{ width: "100%", height: "100%", alignItems: "center" }}>
-                                            <h5 class="card-header">Summary of Income</h5>
-                                            <div class="card-body">
-                                                <div class="card-body" style={{ overflowY: "auto", height: "calc(100vh - 50px)" }}>
+                        <div className="dashboard-wrapper">
+                            <div className="container-fluid dashboard-content" style={{ backgroundColor: '#fff' }}>
+                                <div className="row">
+                                    <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12" style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        <div className="card" style={{ width: "100%", height: "100%", alignItems: "center" }}>
+                                            <h5 className="card-header">Summary of Income</h5>
+                                            <div className="card-body">
+                                                <div className="card-body" style={{ overflowY: "auto", height: "calc(100vh - 50px)" }}>
                                                     <div className="row" style={{ width: "100%", height: "100%" }}>
                                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style={{ marginBottom: '20px', width: '40rem' }}>
-                                                            <a href="">
+                                                            <a href="#">
                                                                 <div style={{
                                                                     display: 'flex',
                                                                     justifyContent: 'center',
@@ -113,117 +108,92 @@ const FinDashboard = () => {
                                                                     textAlign: 'center',
                                                                     width: "100%",
                                                                     height: "250px",
-                                                                    backgroundColor: 'rbga(252, 252, 10, 32',
+                                                                    backgroundColor: 'purple)',
                                                                     flexDirection: 'column',
                                                                     borderRadius: 50,
-                                                                    borderWidth: '10',
+                                                                    borderWidth: '10px',
                                                                     borderColor: 'black',
-                                                                    borderBottom: '5px'
-
+                                                                    borderBottom: '5px solid'
                                                                 }}>
                                                                     <div className="row" style={{ width: '100%' }}>
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6" >
-
-                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Income: </h4>
+                                                                        <div className="col-lg-6">
+                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Income:</h4>
                                                                         </div>
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6" style={{ textAlign: 'right' }}>
+                                                                        <div className="col-lg-6" style={{ textAlign: 'right' }}>
                                                                             <h4 className="text-muted">{incomeBal}</h4>
-
                                                                         </div>
-
-
-
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6" >
-
-                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Direct Expenses: </h4>
+                                                                        <div className="col-lg-6">
+                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Direct Expenses:</h4>
                                                                         </div>
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6">
+                                                                        <div className="col-lg-6">
                                                                             <h4 className="text-muted" style={{ textAlign: 'right' }}>{directExpBal}</h4>
-
                                                                         </div>
-
-
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6" >
-
-                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}> Gross Profit:  </h4>
+                                                                        <div className="col-lg-6">
+                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Gross Profit:</h4>
                                                                         </div>
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6">
+                                                                        <div className="col-lg-6">
                                                                             <h4 className="text-muted" style={{ textAlign: 'right' }}>{incomeBal - directExpBal}</h4>
-
                                                                         </div>
-
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6" >
-
-                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Admin Expenses: </h4>
+                                                                        <div className="col-lg-6">
+                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Admin Expenses:</h4>
                                                                         </div>
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6">
+                                                                        <div className="col-lg-6">
                                                                             <h4 className="text-muted" style={{ textAlign: 'right' }}>{adminExpBal}</h4>
-
                                                                         </div>
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6" >
-
-                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Net Profit: </h4>
+                                                                        <div className="col-lg-6">
+                                                                            <h4 className="text-muted" style={{ textAlign: 'left' }}>Net Profit:</h4>
                                                                         </div>
-                                                                        <div className="col-lg-6 col-md-6 col-sm-6 col-6">
+                                                                        <div className="col-lg-6">
                                                                             <h4 className="text-muted" style={{ textAlign: 'right' }}>{(incomeBal - directExpBal) - adminExpBal}</h4>
-
                                                                         </div>
                                                                     </div>
-
-
                                                                 </div>
                                                             </a>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12" style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                        <div class="card" style={{ width: "100%", height: "100%" }}>
-                                            <h3 class="card-header">Company Banks</h3>
-                                            <div class="card-body" style={{ overflowY: "auto", height: "calc(100vh - 50px)," }}>
-                                                <div className="row" style={{ width: "100%", height: "100%" }}>
-
-                                                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style={{ marginBottom: '20px' }}>
-                                                        <a href="">
-                                                            <div style={{
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                alignItems: 'center',
-                                                                textAlign: 'center',
-                                                                width: "100%",
-                                                                // height: "600px",
-                                                                backgroundColor: '#cadde6',
-                                                                flexDirection: 'column', // Add this to stack elements vertically
-                                                                borderRadius: 40,
-                                                                padding: '8px',
-                                                                paddingTop: '25px'
-                                                            }}>
-
-                                                                {staticAcc.map((option) => (
-                                                                    <div key={option.fin_acc_account_map_id} >
-                                                                        <div>
-                                                                            <h4 className="text-muted">{option.acc_account_name}</h4>
-                                                                        </div>
-                                                                        <div className="metric-value d-inline-block">
-                                                                            <p className="mb-1" style={{ fontWeight: 'light', fontSize: '15px' }}>$ {option.balance} <small>{option.currency}</small> </p>
-                                                                            <h4>________________</h4>
+                                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12" style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        <div className="card-body" style={{ overflowY: "auto", height: "calc(100vh - 50px)" }}>
+                                            <div className="row" style={{ width: "100%", height: "100%" }}>
+                                                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style={{ marginBottom: '5px' }}>
+                                                    <a href="#">
+                                                        <div>
+                                                            {staticAcc.map((option) => (
+                                                                <div key={option.fin_acc_account_map_id}>
+                                                                    
+                                                                    <div className="card" style={{ width: "100%", height: "100%" }}>
+                                                                    <h6 className="text-muted"><small>{"CABS BANK "}{option.acc_account_name}</small></h6>
+                                                                        <div className="metric-value d-inline-block" style={{
+                                                                            display: 'flex',
+                                                                            justifyContent: 'center',
+                                                                            alignItems: 'center',
+                                                                            textAlign: 'center',
+                                                                            width: "100%",
+                                                                            flexDirection: 'column',
+                                                                            borderRadius: 40,
+                                                                            padding: '8px',
+                                                                            paddingTop: '5px',
+                                                                            borderWidth: '10px',
+                                                                            borderColor: 'black',
+                                                                        }}>
+                                                                            <p style={{ fontWeight: 'light', fontSize: '10px' }}>$ {option.balance} <small>{option.currency}</small></p>
+                                                                           
                                                                         </div>
                                                                     </div>
-                                                                ))}
-                                                            </div>
-                                                        </a>
-                                                    </div>
-
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <Footer></Footer>
+                            <Footer />
                         </div>
                     </div>
                     <script src="../assets/vendor/jquery/jquery-3.3.1.min.js"></script>
@@ -233,7 +203,6 @@ const FinDashboard = () => {
                 </body>
             </html>
         </div>
-
     );
 }
 

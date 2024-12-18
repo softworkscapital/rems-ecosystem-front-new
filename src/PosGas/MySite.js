@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SideBar from "./SideBar";
+import SideBar from "../PosGas/SideBar";
 import TopNav from "../TopNav";
 import Footer from "../Footer";
 import { API_URL } from "../config";

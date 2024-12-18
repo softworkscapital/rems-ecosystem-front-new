@@ -4,7 +4,7 @@ const SideBar = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isEcosystemAdmin, setIsEcosystemAdmin] = useState(false);
     const [isMenuOpen, setMenuOpen] = useState(false);
-    const[role, setRole] = useState();
+    const [role, setRole] = useState();
     const [cart, setCart] = useState();
 
     const toggleMenu = () => {
@@ -18,31 +18,29 @@ const SideBar = () => {
         setRole(role);
         setCart(category);
 
-        // Console log the fetched role and category
         console.log('Fetched role:', role);
         console.log('Fetched category:', category);
 
         if (role === 'Admin') {
             setIsAdmin(true);
         } else {
-            setIsAdmin(false); // Optional: Resetting if not Admin
+            setIsAdmin(false);
         }
 
         if (category === 'ecosystem_admin') {
             setIsEcosystemAdmin(true);
         } else {
-            setIsEcosystemAdmin(false); // Optional: Resetting if not Ecosystem Admin
+            setIsEcosystemAdmin(false);
         }
 
-        // Redirect if role is empty or null
         if (!role) {
             window.location.href = '/';
         }
     };
 
     useEffect(() => {
-        checkUserRoles(); // Call the function to check roles
-    }, []); // Empty dependency array ensures this runs only once
+        checkUserRoles();
+    }, []);
 
     return (
         <div>
@@ -64,42 +62,47 @@ const SideBar = () => {
                                 <span className="navbar-toggler-icon"></span>
                             </button>
                             <div className={`collapse navbar-collapse${isMenuOpen ? ' show' : ''}`}>
-                                <ul className="navbar-nav flex-column">
-                                    <li className="nav-divider" style={{ color: '#fff' }}>
+                                <ul className="navbar-nav flex-column" style={{ paddingLeft: '0' }}> {/* Added paddingLeft to align items */}
+                                    <li className="nav-divider" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }}>
                                         Menu
                                     </li>
-                                    <li className="nav-divider" style={{ color: '#fff' }}>
-                                       {role}
-                                       {cart}
+                                    <li className="nav-divider" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }}>
+                                       {/* {role}
+                                       {cart} */}
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link active" style={{ fontSize: '12px', color: '#fff' }} href="/funnel">Dashboard</a>
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/PosGasDash">Dashboard</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" style={{ fontSize: '12px', color: '#fff' }} href="/prospect">Add Prospect</a>
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/PosGas">Remote View</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" style={{ fontSize: '12px', color: '#fff' }} href="/followup">Follow Up</a>
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/Mysite">MySites</a>
                                     </li>
-                                    
+                                    <li className="nav-item">
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/ControlPanel">Inventory</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/saleshift">Closed Shifts</a>
+                                    </li>
+         
+
                                     {isAdmin && isEcosystemAdmin && (
                                         <>
                                             <li className="nav-item">
-                                                <a className="nav-link" style={{ fontSize: '12px', color: '#fff' }} href="/view">View</a>
+                                                <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/Views">Switch View</a>
                                             </li>
                                             <li className="nav-item">
-                                                <a className="nav-link" style={{ fontSize: '12px', color: '#fff' }} href="/market">Market</a>
+                                                <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/ecosystem">Gas Market</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/newuser">Add User</a>
                                             </li>
                                         </>
                                     )}
 
-                                    {isAdmin && (
-                                        <li className="nav-item">
-                                            <a className="nav-link" style={{ fontSize: '12px', color: '#fff' }} href="/newuser">Add User</a>
-                                        </li>
-                                    )}
                                     <li className="nav-item" style={{ color: 'white' }}>
-                                        <a className="nav-link" href="/">Logout</a>
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0'}} href="/">Logout</a>
                                     </li>
                                 </ul>
                             </div>
