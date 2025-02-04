@@ -51,6 +51,12 @@ import InvestmentRevenue from './Pension/InvestmentRevenue';
 import InvestmentPortifolios from './Pension/InvestmentPortifolios';
 import NewMembers from './Pension/NewMembers';
 import Products from './Pension/Products';
+import SurveyQuestions from './Pension/SurveyQuestions';
+import CreateQuestionnaire from './Pension/CreateQuestionnaire';
+import SurveyAnswers from './Pension/SurveyAnswers';
+import SurveyReviews from './Pension/SurveyReviews';
+import SwitchView from './Pension/SwitchView';
+import AnswerQuestionnaire from './Pension/AnswerQuestionnaire';
 import ContributionsPayments from './Pension/ContributionsPayments';
 import NewPensionProduct from './Pension/NewPensionProduct';
 import Memberships from './Pension/Memberships';
@@ -112,9 +118,18 @@ import PayrollPayScales from './Payroll/PayrollPayScales';
 import PayrollControlAccount from './Payroll/PayrollControlAccounts';
 import PayrollBankFilePreView from './Payroll/PayrollBankFilePreView';
 
+
+import CashSaleReview from './Pos/CashSaleReview';
+import CashSale from './Pos/CashSale';
+import CompanySetup from './Pos/CompanySetup';
+import BranchSetup from './Pos/BranchSetup';
+import UserSetup from './Pos/UserSetup';
+
+
 function App() {
 
   const [count, setcount] = useState(0);
+
 
   const add = () => setcount((prev) => prev + 1);
   const subtract = () => setcount((prev) => prev - 1);
@@ -126,7 +141,13 @@ function App() {
         </div>
         {/* <Home></Home> */}
         <Routes>
-          <Route path='/' element={<MainMenu />}></Route>
+          <Route path='/' element={<Login />}></Route>
+          <Route path='/MainMenu' element={<MainMenu />}></Route>
+          <Route path='/CashSaleReview' element={<CashSaleReview/>}></Route>
+          <Route path='/CashSale' element={<CashSale/>}></Route>
+          <Route path='/CompanySetup' element={<CompanySetup/>}></Route>
+          <Route path='/BranchSetup' element={<BranchSetup/>}></Route>
+          <Route path='/UserSetup' element={<UserSetup/>}></Route>
 
 
           <Route path='/PayrollEmployeeDetails' element={<PayrollEmployeeDetails />}></Route>
@@ -144,15 +165,20 @@ function App() {
 
 
           <Route path='/InvoiceReview' element={<InvoiceReview />}></Route>
-          <Route path='/Login' element={<Login />}></Route>
           <Route path='/Memberships' element={<Memberships />}></Route>
           <Route path='/CustomerProfile' element={<CustomerProfile />}></Route>
-          <Route path='/ApproveMembers' element={<ApproveMembers />}></Route>
           <Route path='/Dashboard' element={<Dashboard />}></Route>
+          <Route path='/ApproveMembers' element={<ApproveMembers />}></Route>
           <Route path='/NewMembers' element={<NewMembers />}></Route>
           <Route path='/NewPensionProduct' element={<NewPensionProduct />}></Route>
           <Route path='/ContributionsPayments' element={<ContributionsPayments />}></Route>
           <Route path='/Products' element={<Products />}></Route>
+          <Route path='/SurveyQuestions' element={<SurveyQuestions />}></Route>
+          <Route path='/CreateQuestionnaire' element={<CreateQuestionnaire />}></Route>
+          <Route path='/SurveyAnswers' element={<SurveyAnswers />}></Route>
+          <Route path='/SurveyReviews' element={<SurveyReviews/>}></Route>
+          <Route path='/SwitchView' element={<SwitchView/>}></Route>
+          <Route path='/AnswerQuestionnaire' element={<AnswerQuestionnaire/>}></Route>
           <Route path='/PensionHome' element={<PensionHome />}></Route>
           <Route path='/InvestmentRevenue' element={<InvestmentRevenue />}></Route>
           <Route path='/PensionBlank' element={<PensionBlank />}></Route>

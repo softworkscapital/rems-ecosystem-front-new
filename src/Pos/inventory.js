@@ -11,7 +11,7 @@ import {
   Dropdown,
   DropdownButton,
 } from "react-bootstrap";
-import { API_URL, UPLOADS_URL } from "../config";
+import { API_URL, UPLOADS_API_URL } from "../config";
 import TopNav from "./TopNav";
 import SideBar from "./SideBar";
 
@@ -87,7 +87,7 @@ function Inventory() {
       formData.append('syncid', syncid);
       formData.append('image', image);
   
-      const response = await fetch(`${UPLOADS_URL}/uploads`, {
+      const response = await fetch(`${UPLOADS_API_URL}/uploads`, {
         method: "POST",
         body: formData,
       });

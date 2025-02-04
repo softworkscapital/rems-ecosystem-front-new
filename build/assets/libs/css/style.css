@@ -1938,11 +1938,13 @@ Container / Wrapper
     min-height: 100%;
     padding-top: 60px;
     position: relative;
+
 }
 
 .dashboard-wrapper {
     position: relative;
     left: 0;
+    /* text-align: "left"; */
     margin-left: 264px;
     min-height: 870px !important;
 }

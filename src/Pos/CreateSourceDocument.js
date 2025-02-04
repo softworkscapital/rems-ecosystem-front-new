@@ -74,7 +74,7 @@ const CreateSourceDocument = () => {
       amount: product.unit_size, 
       quantity: 0,
     });
-    setFilteredProducts([]); // Clear the product list after selection
+    setFilteredProducts([]); 
   };
 
   const handleQuantityChange = (e) => {
@@ -89,7 +89,7 @@ const CreateSourceDocument = () => {
     if (newItem.productId && newItem.description && newItem.amount > 0 && newItem.quantity > 0) {
       setItems([...items, newItem]);
       setNewItem({ productId: "", description: "", amount: 0, quantity: 0 });
-      setFilteredProducts([]); // Clear filtered products after adding an item
+      setFilteredProducts([]); 
     } else {
       Swal.fire("Warning", "Please fill out all item fields correctly.", "warning");
     }
@@ -107,7 +107,6 @@ const CreateSourceDocument = () => {
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-md-6">
-            {/* Customer Selection */}
             <div className="form-group">
               <label className="text-start d-block mt-5">Select a customer:</label>
               <select

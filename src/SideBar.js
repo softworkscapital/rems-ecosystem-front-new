@@ -90,6 +90,9 @@ const SideBar = () => {
                                     <li className="nav-item">
                                         <a className="nav-link" style={{fontSize: '12px', color:'#fff'}} href="/followup">Follow Up</a>
                                     </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" style={{fontSize: '12px', color:'#fff'}} href="/prospect">Add Prospect</a>
+                                    </li>
                                     {isAdmin &&
                                         <li className="nav-item">
                                             <a className="nav-link" style={{fontSize: '12px', color:'#fff'}} href="/newuser">Add User</a>

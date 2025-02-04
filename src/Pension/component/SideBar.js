@@ -236,12 +236,38 @@ const SideBar = () => {
                                         )}
                                     </li>
 
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="/Payscal" style={{ fontSize: '12px', color: '#fff', marginBottom: 80 }}>Rules</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="/Payscal" style={{ fontSize: '12px', color: '#fff' }}>Logout</a>
-                                    </li>
+<li className="nav-item">
+<a className="nav-link" href="/Payscal" style={{ fontSize: '12px', color: '#fff' }}>Rules</a>
+</li>
+
+<li className="nav-item">
+<a className="nav-link" href="" style={{ fontSize: '12px', color: '#fff' }}>Evaluation Surveys</a>
+</li>
+
+
+
+<ul className="nav flex-column">
+<li className="nav-item">
+    <a className="nav-link" href="/SwitchView" style={{ fontSize: '12px', color: '#fff' }}>Switch View</a>
+    </li>
+    <li className="nav-item">
+    <a className="nav-link" href="/SurveyQuestions" style={{ fontSize: '12px', color: '#fff' }}>View Survey Questions</a>
+    </li>
+    <li className="nav-item">
+    <a className="nav-link" href="/CreateQuestionnaire" style={{ fontSize: '12px', color: '#fff' }}>Create Survey Questionnaire</a>
+    </li>
+    <li className="nav-item">
+    <a className="nav-link" href="/SurveyAnswers" style={{ fontSize: '12px', color: '#fff' }}>Answer Survey Questions</a>
+    </li>
+    <li className="nav-item">
+    <a className="nav-link" href="/SurveyReviews" style={{ fontSize: '12px', color: '#fff' }}>View Survey Reviews</a>
+    </li>
+
+    <li className="nav-item">
+    <a className="nav-link" href="/Payscal" style={{ fontSize: '12px', color: '#fff' }}>Logout</a>
+    </li>
+</ul>
+
                                 </ul>
                             </div>
                         </nav>

@@ -67,7 +67,13 @@ const SideBar = () => {
                                         Menu
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/SalesSettings">Sales Settings</a>
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/CompanySetup">Company Setup</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/BranchSetup">Branch Setup</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/UserSetup">User Setup</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" style={{ color: '#fff', textAlign: 'left', paddingLeft: '0' }} href="/pos">POS</a>

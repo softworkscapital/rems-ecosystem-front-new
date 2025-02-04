@@ -154,7 +154,7 @@ const Invoice = () => {
             </button>
             <button
               className="btn btn-primary mx-2"
-              onClick={() => navigate("/CreateSourceDocument")}
+              onClick={() => navigate("/CashSale")}
             >
               Cash Sale
             </button>

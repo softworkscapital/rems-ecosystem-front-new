@@ -39,7 +39,7 @@ const Login = () => {
           localStorage.setItem("branch_id", resp[0].branch_id);
           localStorage.setItem("company_id", resp[0].company_id);
           console.log(resp);
-                    window.location.href = "/menu";
+                    window.location.href = "/MainMenu";
         } else {
           Swal.fire({
             text: "Incorrect Username or Password!",
