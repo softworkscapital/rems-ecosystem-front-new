@@ -147,6 +147,20 @@ const Menu = () => {
                                         </a>
                                     </div>
 
+
+                                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                        <a href="/ViewStore" onClick={(e) => handleCardClick('ViewStore', e)}>
+                                            <div className="card" style={{ backgroundColor: '#ADD8E6' }}>
+                                                <div className="card-body">
+                                                    <h5 style={{ textDecoration: 'none' }} className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-3" style={{fontSize: 22}}>X Go Life</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
                                     {/* Empty column for spacing in the second row */}
                                     <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                                         {/* This column is left empty for spacing */}

@@ -133,6 +133,7 @@ const Menu = () => {
                                             </div>
                                         </a>
                                     </div>
+                                    
 
                                     <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                                         <a href="/ClientLogin" onClick={(e) => handleCardClick('ClientLogin', e)}>
@@ -147,10 +148,20 @@ const Menu = () => {
                                         </a>
                                     </div>
 
-                                    {/* Empty column for spacing in the second row */}
+
                                     <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-                                        {/* This column is left empty for spacing */}
+                                        <a href="/ClientLogin" onClick={(e) => handleCardClick('ClientLogin', e)}>
+                                            <div className="card">
+                                                <div className="card-body" style={{ backgroundColor: isCardEnabled('PensionClientSelfService') ? 'white' : 'lightgray' }}>
+                                                    <h5 className="text-muted">REMS</h5>
+                                                    <div className="metric-value d-inline-block">
+                                                        <h2 className="mb-3" style={{fontSize: 22}}>X-GO</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
+
                                 </div>
 
                             </div>

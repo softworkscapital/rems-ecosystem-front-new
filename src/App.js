@@ -126,6 +126,13 @@ import BranchSetup from './Pos/BranchSetup';
 import UserSetup from './Pos/UserSetup';
 
 
+import CreateCompany from './xgolife/CreateCompany';
+import CreateBranch from './xgolife/CreateBranch';
+import CreateUser from './xgolife/CreateUser';
+import AddStock from './xgolife/AddStock';
+import ViewStore from './xgolife/ViewStore';
+
+
 function App() {
 
   const [count, setcount] = useState(0);
@@ -144,6 +151,11 @@ function App() {
           <Route path='/' element={<Login />}></Route>
           <Route path='/MainMenu' element={<MainMenu />}></Route>
           <Route path='/CashSaleReview' element={<CashSaleReview/>}></Route>
+          <Route path='/ViewStore' element={<ViewStore/>}></Route>
+          <Route path='/AddStock' element={<AddStock/>}></Route>
+          <Route path='/CreateUser' element={<CreateUser/>}></Route>
+          <Route path='/CreateBranch' element={<CreateBranch/>}></Route>
+          <Route path='/CreateCompany' element={<CreateCompany/>}></Route>
           <Route path='/CashSale' element={<CashSale/>}></Route>
           <Route path='/CompanySetup' element={<CompanySetup/>}></Route>
           <Route path='/BranchSetup' element={<BranchSetup/>}></Route>
