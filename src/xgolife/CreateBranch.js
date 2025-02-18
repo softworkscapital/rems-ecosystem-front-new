@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SideBar from './SideBar';
 import TopBar from './TopBar';
-// import Footer from "../Footer";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigate } from 'react-router-dom';
-import { API_URL, UPLOADS_API_URL } from './config';
+import { API_URL } from './config';
 
 const CreateBranch = () => {
     const navigate = useNavigate();
@@ -16,8 +15,6 @@ const CreateBranch = () => {
         branch_location: "",
         branch_location_notes: "",
         branch_city: "",
-        latitude: "",
-        longitude: "",
         company_id: "", // This will be set from Async Storage
         company_name: "", // This will be fetched based on company_id
         enrolled_on: new Date().toISOString().split('T')[0], // Default to today
@@ -108,17 +105,26 @@ const CreateBranch = () => {
             const responseData = JSON.parse(responseText);
             console.log('Response Data:', responseData);
     
-            const createdBranchName = responseData.branch_name || branchData.branch_name;
-            await AsyncStorage.setItem('branch_name', createdBranchName);
-            console.log('Branch Name created:', createdBranchName);
+            // Log the company ID and branch ID from the response
+            console.log('Company ID:', finalBranchData.company_id);
+            console.log('Branch ID:', responseData.branch_id);
+    
+            // Store company ID and branch ID in local storage
+            await AsyncStorage.setItem('branch_id', responseData.branch_id);
+            await AsyncStorage.setItem('branch_name', branchData.branch_name);
+            console.log('Branch Name created:', branchData.branch_name);
+    
+            // Log company ID and branch ID from local storage
+            const storedCompanyId = await AsyncStorage.getItem('company_id');
+            const storedBranchId = await AsyncStorage.getItem('branch_id');
+            console.log('Stored Company ID:', storedCompanyId);
+            console.log('Stored Branch ID:', storedBranchId);
     
             Swal.fire({
                 title: 'Success!',
                 text: responseData.message || 'Branch setup completed successfully!',
                 icon: 'success',
                 confirmButtonText: 'OK'
-            }).then(() => {
-                navigate('/UserSetup');
             });
         } catch (error) {
             console.error('Error:', error);
@@ -144,7 +150,7 @@ const CreateBranch = () => {
                         {/* Branch Information */}
                         <div style={{ border: '2px solid #FFD700', borderRadius: '8px', backgroundColor: '#fff', marginBottom: '20px', padding: '20px' }}>
                             <h3 className="mb-4">Branch Information</h3>
-                            {['branch_name', 'branch_location', 'branch_location_notes', 'branch_city', 'latitude', 'longitude', 'company_name', 'enrolled_by', 'phone', 'email'].map((field, index) => (
+                            {['branch_name', 'branch_location', 'branch_location_notes', 'branch_city', 'enrolled_by', 'phone', 'email'].map((field, index) => (
                                 <div className="row mb-3" key={index}>
                                     <label htmlFor={field} className="col-sm-4 col-form-label text-start">{field.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}</label>
                                     <div className="col-sm-8">
@@ -152,6 +158,12 @@ const CreateBranch = () => {
                                     </div>
                                 </div>
                             ))}
+                            <div className="row mb-3">
+                                <label htmlFor="company_name" className="col-sm-4 col-form-label text-start">Company Name</label>
+                                <div className="col-sm-8">
+                                    <input type="text" id="company_name" name="company_name" className="form-control" value={branchData.company_name} readOnly />
+                                </div>
+                            </div>
                         </div>
 
                         <button type="submit" className="btn btn-primary" disabled={isLoading}>
@@ -160,7 +172,6 @@ const CreateBranch = () => {
                     </form>
                 </div>
             </div>
-            {/* <Footer /> */}
         </div>
     );
 };

@@ -24,42 +24,51 @@ const CreateUser = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchBranches = async () => {
-      // Mock data for branches
-      const branchData = [
-        { id: 1, name: 'Branch 1' },
-        { id: 2, name: 'Branch 2' },
-        { id: 3, name: 'Branch 3' }
-      ];
-      setBranches(branchData);
+    const fetchCompanyIdAndBranches = async () => {
+      try {
+        const companyId = await AsyncStorage.getItem('company_id');
 
-      const companyId = await AsyncStorage.getItem('company_id');
-      const branchName = await AsyncStorage.getItem('branch_name');
-
-      if (companyId) {
-        setUserData(prevData => ({
-          ...prevData,
-          company_id: companyId
-        }));
-      }
-
-      if (branchName) {
-        // Fetch the branch_id using the branch_name
-        const branchResponse = await fetch(`${API_URL}/branches/branch_id/${branchName}`);
-        if (branchResponse.ok) {
-          const branchResponseData = await branchResponse.json();
-          const fetchedBranchId = branchResponseData[0].branch_id; // Adjust based on your API response
+        if (companyId) {
           setUserData(prevData => ({
             ...prevData,
-            branch_id: fetchedBranchId
+            company_id: companyId
           }));
+
+          // Fetch branches for the company using the company ID
+          const branchResponse = await fetch(`${API_URL}/branches/branch_name/company/${companyId}`);
+          if (branchResponse.ok) {
+            const branchResponseData = await branchResponse.json();
+            console.log('Fetched Branches:', branchResponseData); // Log the fetched branches
+            setBranches(branchResponseData); // Populate the branches state with fetched data
+          } else {
+            console.error('Error fetching branches:', branchResponse.statusText);
+            Swal.fire({
+              title: 'Error!',
+              text: 'Failed to fetch branches.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
         } else {
-          console.error('Error fetching branch ID');
+          Swal.fire({
+            title: 'Error!',
+            text: 'Company ID not found.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
+      } catch (error) {
+        console.error('Error fetching data from Async Storage:', error);
+        Swal.fire({
+          title: 'Error!',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     };
 
-    fetchBranches();
+    fetchCompanyIdAndBranches();
   }, []); // Runs once on mount
 
   const handleChange = (e) => {
@@ -75,10 +84,10 @@ const CreateUser = () => {
     console.log('Final User Data:', userData);
     
     // Validate required fields
-    if (!userData.username || !userData.password || !userData.email) {
+    if (!userData.username || !userData.password || !userData.email || !userData.branch) {
       Swal.fire({
         title: 'Error',
-        text: 'Username, password, and email are required.',
+        text: 'Username, password, email, and branch are required.',
         icon: 'error',
         confirmButtonText: 'OK'
       });
@@ -203,8 +212,8 @@ const CreateUser = () => {
                   >
                     <option value="">Select Branch</option>
                     {branches.map(branch => (
-                      <option key={branch.id} value={branch.id}>
-                        {branch.name}
+                      <option key={branch.branch_id} value={branch.branch_id}>
+                        {branch.branch_name}
                       </option>
                     ))}
                   </select>

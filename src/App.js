@@ -131,6 +131,7 @@ import CreateBranch from './xgolife/CreateBranch';
 import CreateUser from './xgolife/CreateUser';
 import AddStock from './xgolife/AddStock';
 import ViewStore from './xgolife/ViewStore';
+import XGoSwitchView from './xgolife/SwitchView';
 
 
 function App() {
@@ -160,6 +161,7 @@ function App() {
           <Route path='/CompanySetup' element={<CompanySetup/>}></Route>
           <Route path='/BranchSetup' element={<BranchSetup/>}></Route>
           <Route path='/UserSetup' element={<UserSetup/>}></Route>
+          <Route path='/XGoSwitchView' element={<XGoSwitchView/>}></Route>
 
 
           <Route path='/PayrollEmployeeDetails' element={<PayrollEmployeeDetails />}></Route>

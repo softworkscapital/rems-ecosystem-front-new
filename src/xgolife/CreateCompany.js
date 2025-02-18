@@ -1,376 +1,258 @@
-import React, { useState, useEffect } from "react";
-import {
-  Modal,
-  Button,
-  Form,
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  Dropdown,
-  DropdownButton,
-} from "react-bootstrap";
-import { API_URL, UPLOADS_API_URL } from "../config"; // Ensure API_URL and UPLOADS_API_URL point to your backend
-import TopBar from "./TopBar";
-import SideBar from "./SideBar";
+import React, { useState } from 'react';
+import TopBar from './TopBar';
+import SideBar from './SideBar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_URL, UPLOADS_API_URL } from './config';
+import Swal from 'sweetalert2';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Container } from 'react-bootstrap';
 
-function ViewStore() {
-  const [items, setItems] = useState([]);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showAddProductModal, setShowAddProductModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({
-    product_name: "",
-    qty_balance: 0,
-    unit_cost: 0,
-    selling_price: 0,
-    unit_of_measure: "",
-    unit_size: "",
-    images: [],
-  });
-  const [branchName, setBranchName] = useState("");
-  const branchId = localStorage.getItem("branch_id");
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [selectedProductID, setSelectedProductID] = useState("");
-  const [addQuantity, setAddQuantity] = useState(0);
-  const [products, setProducts] = useState([]);
-
-  // Handle modal shows and closes
-  const handleShowCreateModal = () => setShowCreateModal(true);
-  const handleCloseCreateModal = () => {
-    setNewProduct({
-      product_name: "",
-      qty_balance: 0,
-      unit_cost: 0,
-      selling_price: 0,
-      unit_of_measure: "",
-      unit_size: "",
-      images: [],
-    });
-    setShowCreateModal(false);
-  };
-
-  const handleShowAddProductModal = () => setShowAddProductModal(true);
-  const handleCloseAddProductModal = () => {
-    setSelectedProduct("");
-    setAddQuantity(0);
-    setShowAddProductModal(false);
-  };
-
-  const handleCreateProduct = async () => {
-    const companyId = localStorage.getItem("async_client_profile_id");
-    const syncid = "abcd123";
-
-    // Prepare to upload images
-    const imageUploadPromises = Array.from(newProduct.images).map(async (file) => {
-      const formDataToUpload = new FormData();
-      formDataToUpload.append('company_id', companyId);
-      formDataToUpload.append('branch_id', branchId);
-      formDataToUpload.append('syncid', syncid);
-      formDataToUpload.append('image', file); // Ensure this matches your server's expectation
-
-      try {
-        const response = await fetch(`${UPLOADS_API_URL}/uploads`, {
-          method: "POST",
-          body: formDataToUpload,
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(`Failed to upload image: ${errorData.message || response.statusText}`);
-        }
-
-        const responseData = await response.json();
-        console.log("Uploaded Image URL:", responseData.path); // Log the image URL from the backend
-        return responseData.path; // Adjust according to your response structure
-      } catch (error) {
-        console.error('Upload error:', error);
-        throw new Error(`Error uploading image: ${error.message}`);
-      }
+const CreateCompany = () => {
+    const [companyData, setCompanyData] = useState({
+        company_setup_id: null,
+        company_id: "",
+        name: "",
+        address: "",
+        registration_number: "",
+        industry: "",
+        company_size: "",
+        trading_name: "",
+        phone_number1: "",
+        phone_number2: "",
+        email1: "",
+        email2: "",
+        mode_transaction_size: "",
+        number_of_transactions_per_day: 0,
+        bank_account_id1: "",
+        bank_account_id2: "",
+        bp_number: "",
+        vat_number: "",
+        base_currency: "USD",
+        vat_tax_rate: 0,
+        discount_rate: 0,
+        physical_address: "",
+        portrait_logo: null,
+        salutation: "",
+        letterhead: null
     });
 
-    try {
-      const uploadedImages = await Promise.all(imageUploadPromises);
+    const [isLoading, setIsLoading] = useState(false);
 
-      const productData = {
-        company_id: companyId,
-        branch_id: branchId,
-        syncid: syncid,
-        product_name: newProduct.product_name,
-        unit_of_measure: newProduct.unit_of_measure,
-        unit_size: newProduct.unit_size,
-        qty_balance: newProduct.qty_balance,
-        unit_cost: newProduct.unit_cost,
-        selling_price: newProduct.selling_price,
-        images: uploadedImages,
-      };
-
-      console.log("Object being posted:", productData); // Log the object being posted
-
-      const createProductResponse = await fetch(`${API_URL}/productdefinition`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
-      });
-
-      if (createProductResponse.ok) {
-        alert("Product created successfully");
-        window.location.href = "http://localhost:3000/inventory"; // Redirect after success
-      } else {
-        const errorData = await createProductResponse.json();
-        throw new Error(`Failed to create product: ${errorData.message || createProductResponse.statusText}`);
-      }
-    } catch (err) {
-      console.error(err.message);
-      alert("An error occurred while creating the product.");
-    }
-
-    handleCloseCreateModal();
-  };
-
-  const handleAddProductToStock = async () => {
-    if (!selectedProductID || addQuantity <= 0) {
-      alert("Please select a product and enter a valid quantity.");
-      return;
-    }
-
-    const productToAdd = {
-      company_id: localStorage.getItem("async_client_profile_id"),
-      branch_id: branchId,
-      product_id: selectedProductID,
-      qty_purchased: addQuantity,
-      qty_balance: addQuantity,
-      syncid: "abcd123",
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        setCompanyData({ ...companyData, [name]: files ? files[0] : value });
     };
 
-    try {
-      const response = await fetch(`${API_URL}/inventorymgt`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productToAdd),
-      });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
 
-      if (response.ok) {
-        alert("Product added to stock successfully");
-        window.location.href = "http://localhost:3000/inventory"; // Redirect after success
-      } else {
-        throw new Error('Failed to add product to stock');
-      }
-    } catch (err) {
-      console.error(err.message);
-      alert("An error occurred while adding the product to stock.");
-    }
+        const companyId = localStorage.getItem("async_client_profile_id");
+        const branchId = localStorage.getItem("branch_id");
+        const syncid = "abcd123";
 
-    handleCloseAddProductModal();
-  };
+        if (!companyData.name || !companyData.registration_number || !companyData.industry) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Company name, registration number, and industry are required.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            setIsLoading(false);
+            return;
+        }
 
-  useEffect(() => {
-    fetch(`${API_URL}/branches/${branchId}`)
-      .then((res) => res.json())
-      .then((resp) => {
-        setBranchName(resp[0]?.branch_name || "Unknown Branch");
-      })
-      .catch((err) => console.log(err.message));
-  }, [branchId]);
+        try {
+            const uploadedImagePaths = await uploadImages(companyId, branchId, syncid);
+            const finalCompanyData = {
+                ...companyData,
+                portrait_logo: uploadedImagePaths[0] || null,
+                interest_rate: null
+            };
 
-  useEffect(() => {
-    fetch(`${API_URL}/inventorymgt/inventory/products`)
-      .then((res) => res.json())
-      .then((resp) => {
-        setItems(resp);
-      })
-      .catch((err) => console.log(err.message));
-  }, []);
+            const companyResponse = await fetch(`${API_URL}/companysetup`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(finalCompanyData),
+            });
 
-  useEffect(() => {
-    fetch(`${API_URL}/productdefinition`)
-      .then((res) => res.json())
-      .then((resp) => {
-        setProducts(resp);
-      })
-      .catch((err) => console.log(err.message));
-  }, []);
+            const responseText = await companyResponse.text();
 
-  return (
-    <div style={{ display: 'flex', backgroundColor: '#f0f0f0', minHeight: '100vh' }}>
-      <div style={{ width: '250px' }}>
-        <SideBar />
-      </div>
-      <Container fluid style={{ paddingLeft: '20px', paddingRight: '20px' }}>
-        <TopBar style={{ margin: '0' }} />
+            if (!companyResponse.ok) {
+                throw new Error(responseText);
+            }
 
-        <header className="text-center my-4">
-          <h3>XGoLife Market Store</h3>
-          <h3>Store Management</h3>
-          <Row className="justify-content-center">
-            <Col md="auto">
-              <h5 className="text-secondary">Company: Rems Anything</h5>
-            </Col>
-            <Col md="auto">
-              <h5 className="text-secondary">Branch: {branchName}</h5>
-            </Col>
-          </Row>
-        </header>
+            const responseData = JSON.parse(responseText);
 
-        <Row className="mb-3">
-          <Col>
-            <Button variant="warning" onClick={handleShowCreateModal} className="me-2">
-              Create Product
-            </Button>
-            <Button variant="warning" onClick={handleShowAddProductModal}>
-              Add Product to Stock
-            </Button>
-          </Col>
-        </Row>
+            // Store the newly created company ID in local storage
+            await AsyncStorage.setItem('company_id', responseData.company_id);
+            await AsyncStorage.setItem('company_name', finalCompanyData.name);
 
-        <Row>
-          {items.map((item) => (
-            <Col key={item.inventory_mgt_id} md={4} className="mb-4">
-              <div style={{ border: '2px solid #FFD700', borderRadius: '8px', backgroundColor: '#fff', padding: '20px' }}>
-                <h5>{item.product_name}</h5>
-                <p>Available Quantity: {item.qty_balance}</p>
-                <p>Unit Cost: ${item.unit_cost}</p>
-                <p>Selling Price: ${item.selling_price}</p>
-              </div>
-            </Col>
-          ))}
-        </Row>
+            // Log the new company ID
+            console.log('New Company ID:', responseData.company_id);
 
-        {/* Create Product Modal */}
-        <Modal show={showCreateModal} onHide={handleCloseCreateModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Create Product</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="productName">
-                <Form.Label>Product Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={newProduct.product_name}
-                  onChange={(e) =>
-                    setNewProduct({
-                      ...newProduct,
-                      product_name: e.target.value,
-                    })
-                  }
-                />
-              </Form.Group>
-              <Form.Group controlId="unitOfMeasure" className="mt-3">
-                <Form.Label>Unit of Measure</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={newProduct.unit_of_measure}
-                  onChange={(e) =>
-                    setNewProduct({
-                      ...newProduct,
-                      unit_of_measure: e.target.value,
-                    })
-                  }
-                />
-              </Form.Group>
-              <Form.Group controlId="unitSize" className="mt-3">
-                <Form.Label>Unit Size</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={newProduct.unit_size}
-                  onChange={(e) =>
-                    setNewProduct({ ...newProduct, unit_size: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Form.Group controlId="productImages" className="mt-3">
-                <Form.Label>Select Product Images (Optional)</Form.Label>
-                <Form.Control
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={(e) => setNewProduct({ ...newProduct, images: e.target.files })}
-                />
-              </Form.Group>
-              {newProduct.images.length > 0 && (
-                <div className="mt-3">
-                  <h5>Selected Images:</h5>
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    {Array.from(newProduct.images).map((image, index) => (
-                      <img
-                        key={index}
-                        src={URL.createObjectURL(image)}
-                        alt={`Product ${index}`}
-                        style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                      />
-                    ))}
-                  </div>
+            Swal.fire({
+                title: 'Success!',
+                text: responseData.message || 'Company setup completed successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+            // No navigation occurs after submission
+
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const uploadImages = async (companyId, branchId, syncid) => {
+        const fileInputs = [
+            { name: 'portrait_logo', label: 'Logo' },
+            { name: 'letterhead', label: 'Letterhead' }
+        ];
+
+        const imageUploadPromises = fileInputs.map(async (fileInput) => {
+            const file = companyData[fileInput.name];
+            if (file) {
+                const formDataToUpload = new FormData();
+                formDataToUpload.append('company_id', companyId);
+                formDataToUpload.append('branch_id', branchId);
+                formDataToUpload.append('syncid', syncid);
+                formDataToUpload.append('image', file);
+
+                try {
+                    const response = await fetch(`${UPLOADS_API_URL}/uploads`, {
+                        method: "POST",
+                        body: formDataToUpload,
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`Failed to upload ${fileInput.label}: ${errorData.message || response.statusText}`);
+                    }
+
+                    const responseData = await response.json();
+                    return responseData.path;
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    throw new Error(`Error uploading ${fileInput.label}: ${error.message}`);
+                }
+            }
+            return null; // No file to upload
+        });
+
+        return Promise.all(imageUploadPromises);
+    };
+
+    return (
+        <Container fluid style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+            <div style={{ display: 'flex' }}>
+                <div style={{ width: '250px' }}>
+                    <SideBar />
                 </div>
-              )}
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseCreateModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleCreateProduct}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
+                <div style={{ flex: 1 }}>
+                    <TopBar style={{ margin: '0' }} />
+                    <div className="p-4" style={{ backgroundColor: '#f1f1f1' }}>
+                        <h2 className="mb-4" style={{ color: '#FFD700' }}>Company Setup</h2>
 
-        {/* Add Product to Stock Modal */}
-        <Modal show={showAddProductModal} onHide={handleCloseAddProductModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Add Product to Stock</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Select Product..."
-                value={selectedProduct}
-                readOnly
-              />
-              <DropdownButton
-                as={InputGroup.Append}
-                variant="outline-secondary"
-                title="Select Product"
-                id="input-group-dropdown-1"
-              >
-                {products.map((product) => (
-                  <Dropdown.Item
-                    key={product.product_id}
-                    onClick={() => {
-                      setSelectedProduct(product.product_name);
-                      setSelectedProductID(product.product_id);
-                    }}
-                  >
-                    {product.product_name}
-                  </Dropdown.Item>
-                ))}
-              </DropdownButton>
-            </InputGroup>
-            <Form.Group controlId="addQuantity">
-              <Form.Label>Quantity to Add</Form.Label>
-              <Form.Control
-                type="number"
-                value={addQuantity}
-                onChange={(e) => setAddQuantity(parseInt(e.target.value) || 0)}
-              />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseAddProductModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleAddProductToStock}>
-              Add Product
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </Container>
-    </div>
-  );
-}
+                        <form onSubmit={handleSubmit}>
+                            {/* Business Information Card */}
+                            <div style={{ maxWidth: '800px', margin: '0 auto', padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', marginBottom: '20px' }}>
+                                <h3 className="mb-4">Business Information</h3>
+                                {['name', 'address', 'registration_number', 'industry', 'company_size', 'trading_name'].map((field, index) => (
+                                    <div className="row mb-3" key={index}>
+                                        <label htmlFor={field} className="col-sm-4 col-form-label text-start">{field.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}</label>
+                                        <div className="col-sm-8">
+                                            <input type="text" id={field} name={field} className="form-control" value={companyData[field]} onChange={handleChange} required={field === 'name' || field === 'registration_number' || field === 'industry'} />
+                                        </div>
+                                    </div>
+                                ))}
+                                <div className="row mb-3">
+                                    <label htmlFor="number_of_transactions_per_day" className="col-sm-4 col-form-label text-start">Number of Transactions per Day</label>
+                                    <div className="col-sm-8">
+                                        <input type="number" id="number_of_transactions_per_day" name="number_of_transactions_per_day" className="form-control" value={companyData.number_of_transactions_per_day} onChange={handleChange} />
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <label htmlFor="mode_transaction_size" className="col-sm-4 col-form-label text-start">Mode Transaction Size</label>
+                                    <div className="col-sm-8">
+                                        <input type="text" id="mode_transaction_size" name="mode_transaction_size" className="form-control" value={companyData.mode_transaction_size} onChange={handleChange} />
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <label htmlFor="base_currency" className="col-sm-4 col-form-label text-start">Base Currency</label>
+                                    <div className="col-sm-8">
+                                        <select id="base_currency" name="base_currency" className="form-select" value={companyData.base_currency} onChange={handleChange}>
+                                            <option value="USD">USD</option>
+                                            <option value="ZIG">ZIG</option>
+                                            <option value="ZAR">ZAR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
-export default ViewStore;
+                            {/* Contact Information Card */}
+                            <div style={{ maxWidth: '800px', margin: '0 auto', padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', marginBottom: '20px' }}>
+                                <h3 className="mb-4">Contact Information</h3>
+                                {['phone_number1', 'phone_number2', 'email1', 'email2'].map((field, index) => (
+                                    <div className="row mb-3" key={index}>
+                                        <label htmlFor={field} className="col-sm-4 col-form-label text-start">{field.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}</label>
+                                        <div className="col-sm-8">
+                                            <input type={field.includes('email') ? 'email' : 'tel'} id={field} name={field} className="form-control" value={companyData[field]} onChange={handleChange} required={field === 'email1'} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* VAT Information Card */}
+                            <div style={{ maxWidth: '800px', margin: '0 auto', padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', marginBottom: '20px' }}>
+                                <h3 className="mb-4">VAT Information</h3>
+                                {['vat_number'].map((field, index) => (
+                                    <div className="row mb-3" key={index}>
+                                        <label htmlFor={field} className="col-sm-4 col-form-label text-start">{field.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}</label>
+                                        <div className="col-sm-8">
+                                            <input type="text" id={field} name={field} className="form-control" value={companyData[field]} onChange={handleChange} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Assets Card */}
+                            <div style={{ maxWidth: '800px', margin: '0 auto', padding: '30px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', marginBottom: '20px' }}>
+                                <h3 className="mb-4">Assets</h3>
+                                {['portrait_logo', 'salutation'].map((field, index) => (
+                                    <div className="row mb-3" key={index}>
+                                        <label htmlFor={field} className="col-sm-4 col-form-label text-start">{field.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}</label>
+                                        <div className="col-sm-8">
+                                            {field === 'portrait_logo' ? (
+                                                <input type="file" id={field} name={field} className="form-control" onChange={handleChange} />
+                                            ) : (
+                                                <input type="text" id={field} name={field} className="form-control" value={companyData[field]} onChange={handleChange} />
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button type="submit" className="btn btn-primary" disabled={isLoading} style={{ backgroundColor: '#FFD700', borderColor: '#FFD700' }}>
+                                {isLoading ? 'Submitting...' : 'Submit'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </Container>
+    );
+};
+
+export default CreateCompany;
